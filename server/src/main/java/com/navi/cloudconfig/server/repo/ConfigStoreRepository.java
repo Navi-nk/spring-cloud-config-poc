@@ -21,4 +21,13 @@ public interface ConfigStoreRepository extends CrudRepository<ConfigStore, Long>
     List<ConfigStore> findAllByNamespaceAndProfileAndVersion(@Param("nameSpace") String nameSpace,
                                                              @Param("profile") String profile,
                                                              @Param("version") Long version);
+
+    @Query(value = "select * from config_store where " +
+            "namespace = :namespace " +
+            "and profile = :profile " +
+            "and version = (select max(version) from config_store where " +
+            "namespace = :namespace " +
+            "and profile = :profile)", nativeQuery = true)
+    List<ConfigStore> findAllByMaxVersion(@Param("namespace") String namespace,
+                                          @Param("profile") String profile);
 }
