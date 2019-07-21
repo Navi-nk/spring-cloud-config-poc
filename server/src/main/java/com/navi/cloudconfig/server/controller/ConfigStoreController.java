@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@RestController(value = "/config")
+@RestController
 public class ConfigStoreController {
 
     @Autowired
@@ -21,6 +21,7 @@ public class ConfigStoreController {
 
         String nameSpace = safeInput(config.getNamespace());
         String profile = safeInput(config.getProfile());
+        validateMap(config.getConfigValues());
 
         Long version = getLatestVersion(nameSpace, profile);
 
@@ -40,7 +41,7 @@ public class ConfigStoreController {
 
     private Long getLatestVersion(String nameSpace, String profile) {
         Long version = configStoreRepository.findMaxVersion(nameSpace, profile);
-        return version == null ? 1L : version;
+        return version == null ? 1L : ++version;
     }
 
     @GetMapping("/fetch")
@@ -70,6 +71,12 @@ public class ConfigStoreController {
     }
 
     private void validateList(List input){
+        if(input == null || input.isEmpty()){
+            throw new RuntimeException("Input param is null/empty");
+        }
+    }
+
+    private void validateMap(Map input){
         if(input == null || input.isEmpty()){
             throw new RuntimeException("Input param is null/empty");
         }
