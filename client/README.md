@@ -1,10 +1,10 @@
-##Simple client spring boot application which integrates with remote config server
+## Simple client spring boot application which integrates with remote config server
 
 To Enable using of remote spring cloud config server, including the spring cloud dependency is enough
 ```
 <dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-config</artifactId>
+	<groupId>org.springframework.cloud</groupId>
+	<artifactId>spring-cloud-starter-config</artifactId>
 </dependency>
 ```
 Also to provide remote config server configuration, a bootstrap.properties needs to be provided
